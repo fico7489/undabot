@@ -1,0 +1,11 @@
+.idea
+var
+vendor/
+composer.lock
+.phpunit.result.cache
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+.phpunit.cache
+phpstan.neon
+
+
