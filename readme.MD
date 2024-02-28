@@ -30,4 +30,5 @@ PHPUnit
 vendor/bin/php-cs-fixer fix
 vendor/bin/phpstan analyse
 vendor/bin/phpunit
-
+php bin/console doctrine:migrations:diff
+php bin/console doctrine:migrations:migrate 
