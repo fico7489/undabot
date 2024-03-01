@@ -7,5 +7,5 @@ composer.lock
 /.php-cs-fixer.cache
 .phpunit.cache
 phpstan.neon
-
+/public/bundles/
 

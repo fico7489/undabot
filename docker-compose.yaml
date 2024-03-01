@@ -27,7 +27,7 @@ services:
             - db-data-undabot:/var/lib/mysql
             - ./:/app
         ports:
-            - "33307:3306"
+            - "33308:3306"
 
 volumes:
     db-data-undabot:
