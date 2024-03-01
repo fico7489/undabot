@@ -11,12 +11,12 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 #[AsController]
 class ProviderTextTermScoreController extends AbstractController
 {
-    public function __construct(private readonly TextTermFetcher $textTermProvider)
+    public function __construct(private readonly TextTermFetcher $textTermFetcher)
     {
     }
 
     public function __invoke(Request $request): ProviderTextTerm
     {
-        return $this->textTermProvider->provide($request->query->get('term') ?? '');
+        return $this->textTermFetcher->fetch($request->query->get('term') ?? '');
     }
 }

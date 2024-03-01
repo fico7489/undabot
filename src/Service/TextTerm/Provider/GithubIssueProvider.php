@@ -7,8 +7,8 @@ use GuzzleHttp\Client;
 class GithubIssueProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly string $token,
-        private readonly string $url,
+        private string $token,
+        private string $url,
     ) {
     }
 
@@ -24,7 +24,6 @@ class GithubIssueProvider implements ProviderInterface
 
     public function fetchText(): string
     {
-        exit('fetchText');
         $client = new Client([
             'base_uri' => 'https://api.github.com', 'headers' => [
                 'Authorization' => 'Bearer '.$this->token,
@@ -32,8 +31,8 @@ class GithubIssueProvider implements ProviderInterface
         ]);
 
         $url = $this->getUrl();
-        $reponse = $client->get($url);
-        $contents = $reponse->getBody()->getContents();
+        $response = $client->get($url);
+        $contents = $response->getBody()->getContents();
         $contents = json_decode($contents, true);
 
         $text = $contents['body'] ?? null;

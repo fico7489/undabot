@@ -11,15 +11,15 @@ class TextTermFetcher
 {
     public function __construct(
         private readonly ScoreCalculator $scoreCalculator,
-        private readonly ProviderInterface $textFetcher,
+        private readonly ProviderInterface $provider,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
-    public function provide(string $term): ProviderTextTerm
+    public function fetch(string $term): ProviderTextTerm
     {
-        $provider = $this->textFetcher->getName();
-        $url = $this->textFetcher->getUrl();
+        $provider = $this->provider->getName();
+        $url = $this->provider->getUrl();
 
         $providerText = $this->getOrCreateProviderText($provider, $url);
 
@@ -31,7 +31,7 @@ class TextTermFetcher
         // get text from db by url and provider, if not exists fetch and store in db
         $providerText = $this->entityManager->getRepository(ProviderText::class)->findOneBy(['provider' => $provider, 'url' => $url]);
         if (!$providerText) {
-            $text = $this->textFetcher->fetchText();
+            $text = $this->provider->fetchText();
 
             $providerText = new ProviderText();
             $providerText->setProvider($provider);

@@ -22,7 +22,7 @@ class TextTermProviderTest extends TestCase
         $this->assertCount(0, $this->entityManager->getRepository(ProviderTextTerm::class)->findAll());
 
         // test with term=php
-        $textTerm = $textTermProvider->provide('php');
+        $textTerm = $textTermProvider->fetch('php');
         $this->assertCount(1, $providerText = $this->entityManager->getRepository(ProviderText::class)->findAll());
         $this->assertCount(1, $providerTextTerm = $this->entityManager->getRepository(ProviderTextTerm::class)->findAll());
         $this->assertEquals('github_issue', $providerText[0]->getProvider());
@@ -30,7 +30,7 @@ class TextTermProviderTest extends TestCase
         $this->assertEquals(1, $providerTextTerm[0]->getProviderText()->getId());
 
         // test again with term=php
-        $textTerm = $textTermProvider->provide('php');
+        $textTerm = $textTermProvider->fetch('php');
         $this->assertCount(1, $providerText = $this->entityManager->getRepository(ProviderText::class)->findAll());
         $this->assertCount(1, $providerTextTerm = $this->entityManager->getRepository(ProviderTextTerm::class)->findAll());
         $this->assertEquals('github_issue', $providerText[0]->getProvider());
@@ -38,7 +38,7 @@ class TextTermProviderTest extends TestCase
         $this->assertEquals(1, $providerTextTerm[0]->getProviderText()->getId());
 
         // test again with term=js
-        $textTerm = $textTermProvider->provide('js');
+        $textTerm = $textTermProvider->fetch('js');
         $this->assertCount(1, $providerText = $this->entityManager->getRepository(ProviderText::class)->findAll());
         $this->assertCount(2, $providerTextTerm = $this->entityManager->getRepository(ProviderTextTerm::class)->findAll());
         $this->assertEquals('github_issue', $providerText[0]->getProvider());
@@ -52,7 +52,7 @@ class TextTermProviderTest extends TestCase
         $this->entityManager->persist($providerText[0]);
         $this->entityManager->flush();
 
-        $textTerm = $textTermProvider->provide('php');
+        $textTerm = $textTermProvider->fetch('php');
         $this->assertCount(2, $providerText = $this->entityManager->getRepository(ProviderText::class)->findAll());
         $this->assertCount(3, $providerTextTerm = $this->entityManager->getRepository(ProviderTextTerm::class)->findAll());
         $this->assertEquals('twitter_issue', $providerText[0]->getProvider());
@@ -62,7 +62,7 @@ class TextTermProviderTest extends TestCase
         $this->assertEquals(2, $providerTextTerm[2]->getProviderText()->getId());
 
         // test again
-        $textTerm = $textTermProvider->provide('php');
+        $textTerm = $textTermProvider->fetch('php');
         $this->assertCount(2, $providerText = $this->entityManager->getRepository(ProviderText::class)->findAll());
         $this->assertCount(3, $providerTextTerm = $this->entityManager->getRepository(ProviderTextTerm::class)->findAll());
         $this->assertEquals('twitter_issue', $providerText[0]->getProvider());
