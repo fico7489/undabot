@@ -4,22 +4,22 @@ namespace App\Service\TextTerm;
 
 use App\Entity\ProviderText;
 use App\Entity\ProviderTextTerm;
-use App\Service\TextTerm\TextProvider\TextProviderInterface;
+use App\Service\TextTerm\Provider\ProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-class TextTermProvider
+class TextTermFetcher
 {
     public function __construct(
         private readonly ScoreCalculator $scoreCalculator,
-        private readonly TextProviderInterface $textFetcher,
+        private readonly ProviderInterface $textFetcher,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
     public function provide(string $term): ProviderTextTerm
     {
-        $provider = $this->textFetcher->name();
-        $url = $this->textFetcher->url();
+        $provider = $this->textFetcher->getName();
+        $url = $this->textFetcher->getUrl();
 
         $providerText = $this->getOrCreateProviderText($provider, $url);
 
@@ -31,7 +31,7 @@ class TextTermProvider
         // get text from db by url and provider, if not exists fetch and store in db
         $providerText = $this->entityManager->getRepository(ProviderText::class)->findOneBy(['provider' => $provider, 'url' => $url]);
         if (!$providerText) {
-            $text = $this->textFetcher->fetch();
+            $text = $this->textFetcher->fetchText();
 
             $providerText = new ProviderText();
             $providerText->setProvider($provider);

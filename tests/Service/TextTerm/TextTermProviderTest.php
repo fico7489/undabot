@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Tests\TextTerm;
+namespace App\Tests\Service\TextTerm;
 
 use App\Entity\ProviderText;
 use App\Entity\ProviderTextTerm;
-use App\Service\TextTerm\TextTermProvider;
+use App\Service\TextTerm\TextTermFetcher;
 use App\Tests\TestCase;
 
 class TextTermProviderTest extends TestCase
 {
     public function testService(): void
     {
-        /** @var TextTermProvider $textTermProvider */
-        $textTermProvider = $this->container->get(TextTermProvider::class);
+        $this->mockTextTermProvider();
+
+        // fetch service
+        /** @var TextTermFetcher $textTermProvider */
+        $textTermProvider = $this->container->get(TextTermFetcher::class);
 
         // initial check
         $this->assertCount(0, $this->entityManager->getRepository(ProviderText::class)->findAll());

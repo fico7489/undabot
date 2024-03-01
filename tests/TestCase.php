@@ -2,20 +2,24 @@
 
 namespace App\Tests;
 
+use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use ApiPlatform\Symfony\Bundle\Test\Client;
+use App\Service\TextTerm\Provider\GithubIssueProvider;
+use App\Service\TextTerm\Provider\ProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Filesystem\Filesystem;
 
-class TestCase extends KernelTestCase
+class TestCase extends ApiTestCase
 {
+    protected Client $client;
     protected Container $container;
     protected EntityManagerInterface $entityManager;
 
     protected function setUp(): void
     {
-        self::bootKernel();
+        $this->client = self::createClient();
 
         $this->container = static::getContainer();
 
@@ -32,5 +36,19 @@ class TestCase extends KernelTestCase
         $metaData = $this->entityManager->getMetadataFactory()->getAllMetadata();
         $schemaTool = new SchemaTool($this->entityManager);
         $schemaTool->updateSchema($metaData);
+    }
+
+    protected function mockTextTermProvider(): void
+    {
+        // mock ProviderInterface(GithubIssueProvider)
+
+        $mock = $this->getMockBuilder(GithubIssueProvider::class)
+            ->setConstructorArgs(['test', 'test'])
+            ->onlyMethods(['fetchText'])
+            ->getMock();
+
+        $mock->method('fetchText')->willReturn('tester');
+
+        $this->container->set(ProviderInterface::class, $mock);
     }
 }

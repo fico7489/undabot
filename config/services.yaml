@@ -1,8 +1,6 @@
 parameters:
-    app.score_text_fetcher.github.token: '%env(APP_SCORE_TEXT_FETCHER_GITHUB_TOKEN)%'
-    app.score_text_fetcher.github.username: '%env(APP_SCORE_TEXT_FETCHER_GITHUB_USERNAME)%'
-    app.score_text_fetcher.github.repo: '%env(APP_SCORE_TEXT_FETCHER_GITHUB_REPO)%'
-    app.score_text_fetcher.github.issue_id: '%env(APP_SCORE_TEXT_FETCHER_GITHUB_ISSUE_ID)%'
+    app.text_term_provider_github_issue.token: '%env(APP_TEXT_TERM_PROVIDER_GITHUB_ISSUE_TOKEN)%'
+    app.text_term_provider_github_issue.url: '%env(APP_TEXT_TERM_PROVIDER_GITHUB_ISSUE_URL)%'
 services:
     _defaults:
         autowire: true
@@ -14,6 +12,11 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Service\TextTerm\TextProvider\TextProviderInterface:
-        class: App\Service\TextTerm\TextProvider\GithubIssueTextProvider
+    App\Service\TextTerm\Provider\GithubIssueProvider:
+        $token: '%app.text_term_provider_github_issue.token%'
+        $url: '%app.text_term_provider_github_issue.url%'
+
+    App\Service\TextTerm\Provider\ProviderInterface: '@App\Service\TextTerm\Provider\GithubIssueProvider'
+
+
 
