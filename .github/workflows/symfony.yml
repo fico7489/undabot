@@ -28,6 +28,6 @@ jobs:
     - name: php-cs-fixer
       run: vendor/bin/php-cs-fixer fix
     - name: phpstan
-      run: phpstan/phpstan
+      run: vendor/bin/phpstan analyse
     - name: phpunit
       run: vendor/bin/phpunit
