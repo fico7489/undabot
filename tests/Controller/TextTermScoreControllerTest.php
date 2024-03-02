@@ -4,13 +4,13 @@ namespace App\Tests\Controller;
 
 use App\Tests\TestCase;
 
-class ProviderTextTermScoreControllerTest extends TestCase
+class TextTermScoreControllerTest extends TestCase
 {
     public function testService(): void
     {
         $this->mockTextTermProvider();
 
-        $response = $this->client->request('GET', '/api/provider_text_terms/score?term=php&include=providerText', [
+        $response = $this->client->request('GET', '/api/text_terms/score?term=php&include=text', [
             'headers' => [
                 'Accept' => 'application/vnd.api+json',
             ],
@@ -19,17 +19,17 @@ class ProviderTextTermScoreControllerTest extends TestCase
         $data = $response->toArray()['data'];
         $included = $response->toArray()['included'];
 
-        $this->assertEquals('/api/provider_text_terms/score', $data['id']);
-        $this->assertEquals('ProviderTextTerm', $data['type']);
+        $this->assertEquals('/api/text_terms/score', $data['id']);
+        $this->assertEquals('TextTerm', $data['type']);
         $this->assertEquals(1, $data['attributes']['_id']);
         $this->assertEquals('php', $data['attributes']['term']);
         $this->assertEquals(0, $data['attributes']['score']);
-        $this->assertEquals('ProviderText', $data['relationships']['providerText']['data']['type']);
-        $this->assertEquals('/api/provider_texts/1', $data['relationships']['providerText']['data']['id']);
+        $this->assertEquals('Text', $data['relationships']['text']['data']['type']);
+        $this->assertEquals('/api/texts/1', $data['relationships']['text']['data']['id']);
 
         $this->assertEquals(1, count($included));
-        $this->assertEquals('/api/provider_texts/1', $included[0]['id']);
-        $this->assertEquals('ProviderText', $included[0]['type']);
+        $this->assertEquals('/api/texts/1', $included[0]['id']);
+        $this->assertEquals('Text', $included[0]['type']);
         $this->assertEquals(1, $included[0]['attributes']['_id']);
         $this->assertEquals('github_issue', $included[0]['attributes']['provider']);
         $this->assertEquals('test', $included[0]['attributes']['url']);

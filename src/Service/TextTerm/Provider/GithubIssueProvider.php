@@ -22,7 +22,7 @@ class GithubIssueProvider implements ProviderInterface
         return $this->url;
     }
 
-    public function fetchText(): string
+    public function fetchProviderText(): string
     {
         $client = new Client([
             'base_uri' => 'https://api.github.com', 'headers' => [

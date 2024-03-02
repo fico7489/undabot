@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
     ],
 )]
 #[ORM\Entity]
-class ProviderText
+class Text
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,12 +30,12 @@ class ProviderText
     #[ORM\Column(type: 'text')]
     private ?string $text = null;
 
-    #[ORM\OneToMany(targetEntity: ProviderTextTerm::class, mappedBy: 'providerText')]
-    private Collection $providerTextTerms;
+    #[ORM\OneToMany(targetEntity: TextTerm::class, mappedBy: 'text')]
+    private Collection $textTerms;
 
     public function __construct()
     {
-        $this->providerTextTerms = new ArrayCollection();
+        $this->textTerms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -73,13 +73,13 @@ class ProviderText
         $this->text = $text;
     }
 
-    public function getProviderTextTerms(): Collection
+    public function getTextTerms(): Collection
     {
-        return $this->providerTextTerms;
+        return $this->textTerms;
     }
 
-    public function setProviderTextTerms(Collection $providerTextTerms): void
+    public function setTextTerms(Collection $textTerms): void
     {
-        $this->providerTextTerms = $providerTextTerms;
+        $this->textTerms = $textTerms;
     }
 }

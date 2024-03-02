@@ -45,7 +45,7 @@ vendor/bin/php-cs-fixer fix
 vendor/bin/phpstan analyse
 vendor/bin/phpunit
 php bin/console doctrine:migrations:diff
-php bin/console doctrine:migrations:migrate
+php bin/console doctrine:migrations:migrate  --no-interaction
 php bin/console doctrine:schema:drop --force --full-database
 php bin/console doctrine:schema:validate --skip-sync
 php bin/console asset:install

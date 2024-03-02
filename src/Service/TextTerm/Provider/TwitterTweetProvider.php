@@ -14,7 +14,7 @@ class TwitterTweetProvider implements ProviderInterface
         throw new \Exception('Not implemented');
     }
 
-    public function fetchText(): string
+    public function fetchProviderText(): string
     {
         throw new \Exception('Not implemented');
     }

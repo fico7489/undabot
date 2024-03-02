@@ -8,5 +8,5 @@ interface ProviderInterface
 
     public function getUrl(): string;
 
-    public function fetchText(): string;
+    public function fetchProviderText(): string;
 }

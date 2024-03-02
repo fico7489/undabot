@@ -4,20 +4,26 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
-use App\Controller\ProviderTextTermScoreController;
+use App\Controller\TextTermScoreController;
+use App\Controller\TextTermScoreV2Controller;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource(
     operations: [
         new Get(
-            uriTemplate: '/provider_text_terms/score',
-            controller: ProviderTextTermScoreController::class,
+            uriTemplate: '/text_terms/score',
+            controller: TextTermScoreController::class,
+            read: false,
+        ),
+        new Get(
+            uriTemplate: '/v2/text_terms/score',
+            controller: TextTermScoreV2Controller::class,
             read: false,
         ),
     ],
 )]
 #[ORM\Entity]
-class ProviderTextTerm
+class TextTerm
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,8 +36,10 @@ class ProviderTextTerm
     #[ORM\Column(type: 'float')]
     private ?float $score = null;
 
-    #[ORM\ManyToOne(targetEntity: ProviderText::class, inversedBy: 'providerTextTerms')]
-    private ProviderText $providerText;
+    #[ORM\ManyToOne(targetEntity: Text::class, inversedBy: 'textTerms')]
+    private Text $text;
+
+    private bool $isNew = false;
 
     public function getId(): ?int
     {
@@ -58,13 +66,23 @@ class ProviderTextTerm
         $this->score = $score;
     }
 
-    public function getProviderText(): ProviderText
+    public function getText(): Text
     {
-        return $this->providerText;
+        return $this->text;
     }
 
-    public function setProviderText(ProviderText $providerText): void
+    public function setText(Text $text): void
     {
-        $this->providerText = $providerText;
+        $this->text = $text;
+    }
+
+    public function isNew(): bool
+    {
+        return $this->isNew;
+    }
+
+    public function setIsNew(bool $isNew): void
+    {
+        $this->isNew = $isNew;
     }
 }

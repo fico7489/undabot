@@ -17,6 +17,3 @@ services:
         $url: '%app.text_term_provider_github_issue.url%'
 
     App\Service\TextTerm\Provider\ProviderInterface: '@App\Service\TextTerm\Provider\GithubIssueProvider'
-
-
-

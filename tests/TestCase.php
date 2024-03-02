@@ -44,10 +44,10 @@ class TestCase extends ApiTestCase
 
         $mock = $this->getMockBuilder(GithubIssueProvider::class)
             ->setConstructorArgs(['test', 'test'])
-            ->onlyMethods(['fetchText'])
+            ->onlyMethods(['fetchProviderText'])
             ->getMock();
 
-        $mock->method('fetchText')->willReturn('tester');
+        $mock->method('fetchProviderText')->willReturn('tester');
 
         $this->container->set(ProviderInterface::class, $mock);
     }

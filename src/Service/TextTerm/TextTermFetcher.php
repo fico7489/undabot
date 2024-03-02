@@ -2,8 +2,8 @@
 
 namespace App\Service\TextTerm;
 
-use App\Entity\ProviderText;
-use App\Entity\ProviderTextTerm;
+use App\Entity\Text;
+use App\Entity\TextTerm;
 use App\Service\TextTerm\Provider\ProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -16,51 +16,52 @@ class TextTermFetcher
     ) {
     }
 
-    public function fetch(string $term): ProviderTextTerm
+    public function fetch(string $term): TextTerm
     {
         $provider = $this->provider->getName();
         $url = $this->provider->getUrl();
 
-        $providerText = $this->getOrCreateProviderText($provider, $url);
+        $text = $this->getOrCreateText($provider, $url);
 
-        return $this->getOrCreateProviderTextTerm($providerText, $term);
+        return $this->getOrCreateTextTerm($text, $term);
     }
 
-    private function getOrCreateProviderText(string $provider, string $url): ProviderText
+    private function getOrCreateText(string $provider, string $url): Text
     {
         // get text from db by url and provider, if not exists fetch and store in db
-        $providerText = $this->entityManager->getRepository(ProviderText::class)->findOneBy(['provider' => $provider, 'url' => $url]);
-        if (!$providerText) {
-            $text = $this->provider->fetchText();
+        $text = $this->entityManager->getRepository(Text::class)->findOneBy(['provider' => $provider, 'url' => $url]);
+        if (!$text) {
+            $providerText = $this->provider->fetchProviderText();
 
-            $providerText = new ProviderText();
-            $providerText->setProvider($provider);
-            $providerText->setUrl($url);
-            $providerText->setText($text);
+            $text = new Text();
+            $text->setProvider($provider);
+            $text->setUrl($url);
+            $text->setText($providerText);
 
-            $this->entityManager->persist($providerText);
+            $this->entityManager->persist($text);
             $this->entityManager->flush();
         }
 
-        return $providerText;
+        return $text;
     }
 
-    private function getOrCreateProviderTextTerm(ProviderText $providerText, string $term): ProviderTextTerm
+    private function getOrCreateTextTerm(Text $text, string $term): TextTerm
     {
         // get text_term from db by text and term, if not exists calculate and store in db
-        $providerTextTerm = $this->entityManager->getRepository(ProviderTextTerm::class)->findOneBy(['providerText' => $providerText, 'term' => $term]);
-        if (!$providerTextTerm) {
-            $score = $this->scoreCalculator->calculate($providerText->getText(), $term);
+        $textTerm = $this->entityManager->getRepository(TextTerm::class)->findOneBy(['text' => $text, 'term' => $term]);
+        if (!$textTerm) {
+            $score = $this->scoreCalculator->calculate($text->getText(), $term);
 
-            $providerTextTerm = new ProviderTextTerm();
-            $providerTextTerm->setTerm($term);
-            $providerTextTerm->setScore($score);
-            $providerTextTerm->setProviderText($providerText);
+            $textTerm = new TextTerm();
+            $textTerm->setTerm($term);
+            $textTerm->setScore($score);
+            $textTerm->setText($text);
+            $textTerm->setIsNew(true);
 
-            $this->entityManager->persist($providerTextTerm);
+            $this->entityManager->persist($textTerm);
             $this->entityManager->flush();
         }
 
-        return $providerTextTerm;
+        return $textTerm;
     }
 }
