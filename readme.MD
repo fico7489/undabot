@@ -155,7 +155,7 @@ curl --location 'http://localhost:5004/api/v2/text_terms?include=text' \
 - API v2 - uvesti verzioniranje API-a
   - napravljeno! imamo api v2 api endpoint za pretragu, nije baš precizno bilo definirano kako izvesti valjda je to to 
 - CI / CD - postaviti osnovni CI/CD
-  - napravljeno! na repositoriju se vrti CI
+  - napravljeno! na repositoriju se vrti github workflow
 - Docker - postaviti projekt koristeći Docker platformu
   - napravljeno!
 - OpenAPI 3 specifikaciju projekta
