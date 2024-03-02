@@ -2,9 +2,62 @@
 
 [PDF Zadatak](/docs/Zadatak-PHP.pdf)
 
-## Pokretanje projekta
+## Set up project
 
-## Što je napravljeno
+1. git clone https://github.com/fico7489/undabot
+2. cd undabot
+3. create .env.local file and store your YOUR_GITHUB_TOKEN and YOUR_GITHUB_ISSUE_URL
+
+ - APP_TEXT_TERM_PROVIDER_GITHUB_ISSUE_TOKEN=[YOUR_GITHUB_TOKEN]
+ - APP_TEXT_TERM_PROVIDER_GITHUB_ISSUE_URL=[YOUR_GITHUB_ISSUE_URL]
+
+Example:
+
+ - APP_TEXT_TERM_PROVIDER_GITHUB_ISSUE_TOKEN=1234_dummy_github_token_dummy_1234
+ - APP_TEXT_TERM_PROVIDER_GITHUB_ISSUE_URL=/repos/fico7489/test/issues/1
+
+4. docker compose up -d
+5. docker compose exec php sh
+6. composer install
+7. php bin/console doctrine:migrations:migrate  --no-interaction
+8. api endpoint for search:
+
+ - http://localhost:5004/api/text_terms/score?term=[YOUR_TERM]
+ - http://localhost:5004/api/text_terms/score?term=php
+
+DONE!
+
+### Other
+
+#### Recreate database
+
+1. php bin/console doctrine:schema:drop --force --full-database
+2. php bin/console doctrine:migrations:migrate  --no-interaction
+
+#### Run csfixer, phpstan and tests:
+
+- vendor/bin/php-cs-fixer fix
+- vendor/bin/phpstan analyse
+- vendor/bin/phpunit
+
+#### OpenAPI 3 swager documentation
+
+1. php bin/console asset:install
+2. visit: http://localhost:5004/api/docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Technical notes
 

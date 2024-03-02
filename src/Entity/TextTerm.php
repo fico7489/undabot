@@ -4,8 +4,9 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Controller\TextTermScoreController;
-use App\Controller\TextTermScoreV2Controller;
+use App\Controller\TextTermV2Controller;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource(
@@ -15,10 +16,9 @@ use Doctrine\ORM\Mapping as ORM;
             controller: TextTermScoreController::class,
             read: false,
         ),
-        new Get(
-            uriTemplate: '/v2/text_terms/score',
-            controller: TextTermScoreV2Controller::class,
-            read: false,
+        new Post(
+            uriTemplate: '/v2/text_terms',
+            controller: TextTermV2Controller::class,
         ),
     ],
 )]

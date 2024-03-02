@@ -9,14 +9,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 
 #[AsController]
-class TextTermScoreV2Controller extends AbstractController
+class TextTermV2Controller extends AbstractController
 {
     public function __construct(private readonly TextTermFetcher $textTermFetcher)
     {
     }
 
-    public function __invoke(Request $request): TextTerm
+    public function __invoke(Request $request, TextTerm $textTerm): TextTerm
     {
-        return $this->textTermFetcher->fetch($request->query->get('keyword', ''));
+        return $this->textTermFetcher->fetch($textTerm->getTerm());
     }
 }
