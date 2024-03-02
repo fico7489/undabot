@@ -144,8 +144,8 @@ curl --location 'http://localhost:5004/api/v2/text_terms?include=text' \
 - TextTermScoreController.php se koristi za custom api endpoint na api platformu i on je idempotentan, tj. uvijek vrati TextTerm 
  bez obzira da li se kreira ili vrati postojeći i o tome brine servis TextTermProvider.php
 
-- TextTermV2Controller.php on radi isto samo je on definiran na v2 ruti i na njega se ne šalje term u url parametru kao na prethodnom, nego u JSON-u 
- te se onda to serializira u TextTerm entitet i term se dohvaća iz entiteta
+- TextTermV2Controller.php radi isto kao prethodni samo je prebačen na POST metodu i definiran je na v2 ruti,
+na njega se ne šalje term u url parametru kao na prethodnom, nego u JSON-u te se onda to serializira u TextTerm entitet i term se dohvaća iz entiteta
 
 
 ## Bonus
@@ -165,12 +165,13 @@ curl --location 'http://localhost:5004/api/v2/text_terms?include=text' \
 
 ## Additional notes
 
-Nisam ništa pitao što bi eventualno bilo nejasno da ne gnjavim, nego sam sve napravio kako mi je izgledalo ok jer ipak je ovo samo testni zadatak.
+Nisam ništa previše komplicirao i ispitivao, samo nam napravio kako mislim da sam shvatio jer ipak je ovo samo testni zadatak.
 
 Sustav pretražuje GitHub issue tako da uzme body od definiranog issue-a i na njemu računa score
 Koji issue_url i github_token su u konfiguraciji i može se mijenjati. Ja sam shvatio da tako treba, 
 a ne pretraživati više issue-a, uzimati komentare ili šta već.
 
-Jedino nije napravljen "OAuth2 sustav" ali mogu i to ako treba.
+Na oba dva api endpointa se vraća 'new' flag gdje se vidi da li je entitet kreiran u tom requestu ili je uzeti postojeći.
 
+Jedino nije napravljen "OAuth2 sustav" ali mogu i to ako treba.
 
