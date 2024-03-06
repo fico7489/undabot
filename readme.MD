@@ -19,7 +19,8 @@ Example:
 4. docker compose up -d
 5. docker compose exec php sh
 6. composer install
-7. php bin/console doctrine:migrations:migrate  --no-interaction
+7. php bin/console doctrine:migrations:migrate  --no-interaction 
+  - NOTE: on first docker up mysql needs 30-60 seconds to be ready
 8. api endpoint for search:
 
  - http://localhost:5004/api/text_terms/score?term=[YOUR_TERM]
